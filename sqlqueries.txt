@@ -1,0 +1,77 @@
+1️⃣ DOCTOR TABLE
+CREATE TABLE doctor (
+    id VARCHAR(30) PRIMARY KEY,
+    name VARCHAR(50),
+    speciality VARCHAR(50),
+    experience INT,
+    password VARCHAR(255) NOT NULL
+);
+
+✔ id → Primary Key
+✔ password length 255 (for hashed password support)
+
+✅ 2️⃣ USER TABLE
+
+Right now your user table has no primary key.
+Better to make phone as primary key.
+
+CREATE TABLE user (
+    phone VARCHAR(30) PRIMARY KEY,
+    name VARCHAR(50),
+    email VARCHAR(40),
+    password VARCHAR(255)
+);
+
+✔ Phone is unique identifier
+✔ Password length increased for hashing
+
+✅ 3️⃣ DISEASE TABLE
+
+Your current table has no primary key.
+Let’s fix that.
+
+CREATE TABLE disease (
+    id VARCHAR(20) PRIMARY KEY,
+    name VARCHAR(40),
+    symtom VARCHAR(500),
+    specialist VARCHAR(40)
+);
+
+✔ id set as Primary Key
+
+✅ 4️⃣ APPOINTMENT TABLE
+
+Now important part — add foreign keys properly.
+
+CREATE TABLE appointment (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    doctor_id VARCHAR(30),
+    user_phone VARCHAR(30),
+    appointment_date DATE,
+    appointment_time VARCHAR(10),
+    queue_number INT,
+    status VARCHAR(30) DEFAULT 'Booked',
+
+    FOREIGN KEY (doctor_id) REFERENCES doctor(id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (user_phone) REFERENCES user(phone)
+        ON DELETE CASCADE
+);
+
+✔ id auto increment
+✔ Default status = Booked
+✔ Foreign keys added
+✔ ON DELETE CASCADE → if doctor/user deleted, appointments auto delete
+
+Very important for viva.
+
+✅ 5️⃣ LOGIN_HISTORY TABLE
+CREATE TABLE login_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_type VARCHAR(20),
+    user_id VARCHAR(50),
+    login_time DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+Simple and clean.
